@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj": {}
+    "C:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj": {
+    "C:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj",
+        "projectUniqueName": "C:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj",
         "projectName": "ProEventos.API",
-        "projectPath": "c:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj",
+        "projectPath": "C:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj",
         "packagesPath": "C:\\Users\\Luiz Miguel\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\obj\\",
+        "outputPath": "C:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Luiz Miguel\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -38,7 +38,17 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.2, )"
             },
@@ -63,8 +73,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -76,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
         }
       }
     }
