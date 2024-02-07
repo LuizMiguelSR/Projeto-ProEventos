@@ -10,6 +10,8 @@ import { response } from 'express';
 export class EventosComponent implements OnInit {
 
   public eventos: any = [];
+  widthImg: number = 50;
+  marginImg: number = 2;
 
   constructor(private http: HttpClient) { }
 
