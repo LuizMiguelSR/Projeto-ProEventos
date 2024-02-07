@@ -3,16 +3,15 @@
 
 <div action="" class="form-inline">
   <div class="form-group mb-2">
+    <label class="mr-2">Filtro: </label>
     <input
       type="text"
       class="form-control mr-2"
       placeholder="buscar"
       [(ngModel)]="filtroLista"
     >
-    <button class="btn btn-outline-success">Buscar</button>
   </div>
 </div>
-<h3>Filtro: {{ filtroLista }}</h3>
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
