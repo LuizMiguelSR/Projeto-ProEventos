@@ -20,12 +20,11 @@ namespace ProEventos.Application
             try
             {
                 _geralPersist.Add<Evento>(model);
-                if (await _geralPersist.SaveChangeAsync()) 
+                if (await _geralPersist.SaveChangesAsync())
                 {
                     return await _eventoPersist.GetEventoByIdAsync(model.Id, false);
                 }
                 return null;
-
             }
             catch (Exception ex)
             {
@@ -43,7 +42,7 @@ namespace ProEventos.Application
                 model.Id = evento.Id;
 
                 _geralPersist.Update(model);
-                if (await _geralPersist.SaveChangeAsync()) 
+                if (await _geralPersist.SaveChangesAsync())
                 {
                     return await _eventoPersist.GetEventoByIdAsync(model.Id, false);
                 }
@@ -60,10 +59,10 @@ namespace ProEventos.Application
             try
             {
                 var evento = await _eventoPersist.GetEventoByIdAsync(eventoId, false);
-                if (evento == null) throw new Exception("Evento para delete não encontrado");
+                if (evento == null) throw new Exception("Evento para delete não encontrado.");
 
                 _geralPersist.Delete<Evento>(evento);
-                return await _geralPersist.SaveChangeAsync();
+                return await _geralPersist.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -100,7 +99,7 @@ namespace ProEventos.Application
                 throw new Exception(ex.Message);
             }
         }
-        
+
         public async Task<Evento> GetEventoByIdAsync(int eventoId, bool includePalestrantes = false)
         {
             try
