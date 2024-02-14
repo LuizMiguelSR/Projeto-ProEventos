@@ -70,5 +70,10 @@ namespace ProEventos.Persistence
 
             return await query.FirstOrDefaultAsync();
         }
+
+        public Task<Evento> GetEventoByIdAsync(int id, bool v)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
