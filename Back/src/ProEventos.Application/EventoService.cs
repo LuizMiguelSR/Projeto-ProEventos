@@ -37,7 +37,7 @@ namespace ProEventos.Application
         {
             try
             {
-                var evento = await _eventoPersist.GetAEventoByIdAsync(eventoId, false);
+                var evento = await _eventoPersist.GetEventoByIdAsync(eventoId, false);
                 if (evento == null) return null;
 
                 model.Id = evento.Id;
@@ -59,7 +59,7 @@ namespace ProEventos.Application
         {
             try
             {
-                var evento = await _eventoPersist.GetAEventoByIdAsync(eventoId, false);
+                var evento = await _eventoPersist.GetEventoByIdAsync(eventoId, false);
                 if (evento == null) throw new Exception("Evento para delete não encontrado");
 
                 _geralPersist.Delete<Evento>(evento);
@@ -101,7 +101,7 @@ namespace ProEventos.Application
             }
         }
         
-        public async Task<Evento> GetAEventoByIdAsync(int eventoId, bool includePalestrantes = false)
+        public async Task<Evento> GetEventoByIdAsync(int eventoId, bool includePalestrantes = false)
         {
             try
             {
