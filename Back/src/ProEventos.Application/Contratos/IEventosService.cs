@@ -11,6 +11,6 @@ namespace ProEventos.Application.Contratos
         // Eventos
         Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes = false);
         Task<Evento[]> GetAllEventosAsync(bool includePalestrantes = false);
-        Task<Evento> GetAEventoByIdAsync(int EventoId, bool includePalestrantes = false);
+        Task<Evento> GetAEventoByIdAsync(int eventoId, bool includePalestrantes = false);
     }
 }
