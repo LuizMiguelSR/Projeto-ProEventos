@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { EventoService } from './services/evento.service';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     FormsModule,
   ],
   providers: [
+    EventoService, // 2° Forma
     provideClientHydration()
   ],
   bootstrap: [AppComponent]

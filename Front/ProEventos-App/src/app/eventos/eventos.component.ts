@@ -5,7 +5,8 @@ import { EventoService } from '../services/evento.service';
 @Component({
   selector: 'app-eventos',
   templateUrl: './eventos.component.html',
-  styleUrls: ['./eventos.component.scss']
+  styleUrls: ['./eventos.component.scss']/* ,
+  providers: [EventoService] // 1° Forma*/
 })
 export class EventosComponent implements OnInit {
 
@@ -45,7 +46,7 @@ export class EventosComponent implements OnInit {
   }
 
   public getEventos(): void {
-    this.eventoService.getEvento().subscribe(
+    this.eventoService.getEventos().subscribe(
       response => {
         this.eventos = response;
         this.eventosFiltrados = this.eventos;
