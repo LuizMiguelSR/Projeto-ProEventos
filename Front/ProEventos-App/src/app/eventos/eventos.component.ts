@@ -17,14 +17,14 @@ export class EventosComponent implements OnInit {
   public laguraImagem: number = 150;
   public margemimagem: number = 2;
   public exibirImagem: boolean = true;
-  private _filtroLista: string = '';
+  private _filtroListado: string = '';
 
   public get filtroLista() {
-    return this._filtroLista
+    return this._filtroListado
   }
 
   public set filtroLista(value: string) {
-    this._filtroLista = value;
+    this._filtroListado = value;
     this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
   }
 
@@ -34,7 +34,7 @@ export class EventosComponent implements OnInit {
       (evento: {
         local: any; tema: string;
       }) => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 || evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-    )
+    );
   }
 
   constructor(private eventoService: EventoService) { }
@@ -48,12 +48,12 @@ export class EventosComponent implements OnInit {
   }
 
   public getEventos(): void {
-    this.eventoService.getEventos().subscribe(
-      (_eventos: Evento[]) => {
-        this.eventos = _eventos;
+    this.eventoService.getEventos().subscribe({
+      next: (eventos: Evento[]) => {
+        this.eventos = eventos;
         this.eventosFiltrados = this.eventos;
       },
-      error => console.log(error)
-    );
+      error: (error: any) => console.log(error)
+    });
   }
 }
