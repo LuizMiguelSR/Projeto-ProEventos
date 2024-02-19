@@ -1,6 +1,6 @@
 import {
   getDOM
-} from "./chunk-EIY5VSXE.js";
+} from "./chunk-Q2HYHPGO.js";
 import {
   ChangeDetectorRef,
   Directive,
@@ -44,7 +44,7 @@ import {
   ɵɵdirectiveInject,
   ɵɵgetInheritedFactory,
   ɵɵlistener
-} from "./chunk-BCLRVXCG.js";
+} from "./chunk-UXCDRQYI.js";
 
 // node_modules/@angular/forms/fesm2022/forms.mjs
 var _BaseControlValueAccessor = class _BaseControlValueAccessor {
@@ -6234,7 +6234,7 @@ var UntypedFormBuilder = _UntypedFormBuilder;
     }]
   }], null, null);
 })();
-var VERSION = new Version("17.1.2");
+var VERSION = new Version("17.2.1");
 var _FormsModule = class _FormsModule {
   /**
    * @description
@@ -6382,7 +6382,7 @@ export {
 
 @angular/forms/fesm2022/forms.mjs:
   (**
-   * @license Angular v17.1.2
+   * @license Angular v17.2.1
    * (c) 2010-2022 Google LLC. https://angular.io/
    * License: MIT
    *)

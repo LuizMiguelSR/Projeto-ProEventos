@@ -59,7 +59,7 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-BCLRVXCG.js";
+} from "./chunk-UXCDRQYI.js";
 
 // node_modules/@angular/common/fesm2022/common.mjs
 var _DOM = null;
@@ -71,6 +71,26 @@ function setRootDomAdapter(adapter) {
 }
 var DomAdapter = class {
 };
+var _PlatformNavigation = class _PlatformNavigation {
+};
+_PlatformNavigation.ɵfac = function PlatformNavigation_Factory(t) {
+  return new (t || _PlatformNavigation)();
+};
+_PlatformNavigation.ɵprov = ɵɵdefineInjectable({
+  token: _PlatformNavigation,
+  factory: () => (() => window.navigation)(),
+  providedIn: "platform"
+});
+var PlatformNavigation = _PlatformNavigation;
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PlatformNavigation, [{
+    type: Injectable,
+    args: [{
+      providedIn: "platform",
+      useFactory: () => window.navigation
+    }]
+  }], null, null);
+})();
 var DOCUMENT = new InjectionToken(ngDevMode ? "DocumentToken" : "");
 var _PlatformLocation = class _PlatformLocation {
   historyGo(relativePosition) {
@@ -3629,7 +3649,7 @@ function isPlatformWorkerApp(platformId) {
 function isPlatformWorkerUi(platformId) {
   return platformId === PLATFORM_WORKER_UI_ID;
 }
-var VERSION = new Version("17.1.2");
+var VERSION = new Version("17.2.1");
 var _ViewportScroller = class _ViewportScroller {
 };
 _ViewportScroller.ɵprov = ɵɵdefineInjectable({
@@ -3882,6 +3902,53 @@ function createImgixUrl(path, config) {
     url.searchParams.set("w", config.width.toString());
   }
   return url.href;
+}
+var netlifyLoaderInfo = {
+  name: "Netlify",
+  testUrl: isNetlifyUrl
+};
+var NETLIFY_LOADER_REGEX = /https?\:\/\/[^\/]+\.netlify\.app\/.+/;
+function isNetlifyUrl(url) {
+  return NETLIFY_LOADER_REGEX.test(url);
+}
+function provideNetlifyLoader(path) {
+  if (path && !isValidPath(path)) {
+    throw new RuntimeError(2959, ngDevMode && `Image loader has detected an invalid path (\`${path}\`). To fix this, supply either the full URL to the Netlify site, or leave it empty to use the current site.`);
+  }
+  if (path) {
+    const url = new URL(path);
+    path = url.origin;
+  }
+  const loaderFn = (config) => {
+    return createNetlifyUrl(config, path);
+  };
+  const providers = [{
+    provide: IMAGE_LOADER,
+    useValue: loaderFn
+  }];
+  return providers;
+}
+var validParams = /* @__PURE__ */ new Map([["height", "h"], ["fit", "fit"], ["quality", "q"], ["q", "q"], ["position", "position"]]);
+function createNetlifyUrl(config, path) {
+  const url = new URL(path ?? "https://a/");
+  url.pathname = "/.netlify/images";
+  if (!isAbsoluteUrl(config.src) && !config.src.startsWith("/")) {
+    config.src = "/" + config.src;
+  }
+  url.searchParams.set("url", config.src);
+  if (config.width) {
+    url.searchParams.set("w", config.width.toString());
+  }
+  for (const [param, value] of Object.entries(config.loaderParams ?? {})) {
+    if (validParams.has(param)) {
+      url.searchParams.set(validParams.get(param), value.toString());
+    } else {
+      if (ngDevMode) {
+        console.warn(formatRuntimeError(2959, `The Netlify image loader has detected an \`<img>\` tag with the unsupported attribute "\`${param}\`".`));
+      }
+    }
+  }
+  return url.hostname === "a" ? url.href.replace(url.origin, "") : url.href;
 }
 function imgDirectiveDetails(ngSrc, includeNgSrc = true) {
   const ngSrcInfo = includeNgSrc ? `(activated on an <img> element with the \`ngSrc="${ngSrc}"\`) ` : "";
@@ -4157,7 +4224,10 @@ var ASPECT_RATIO_TOLERANCE = 0.1;
 var OVERSIZED_IMAGE_TOLERANCE = 1e3;
 var FIXED_SRCSET_WIDTH_LIMIT = 1920;
 var FIXED_SRCSET_HEIGHT_LIMIT = 1080;
-var BUILT_IN_LOADERS = [imgixLoaderInfo, imageKitLoaderInfo, cloudinaryLoaderInfo];
+var PLACEHOLDER_BLUR_AMOUNT = 15;
+var DATA_URL_WARN_LIMIT = 4e3;
+var DATA_URL_ERROR_LIMIT = 1e4;
+var BUILT_IN_LOADERS = [imgixLoaderInfo, imageKitLoaderInfo, cloudinaryLoaderInfo, netlifyLoaderInfo];
 var _NgOptimizedImage = class _NgOptimizedImage {
   constructor() {
     this.imageLoader = inject(IMAGE_LOADER);
@@ -4203,6 +4273,7 @@ var _NgOptimizedImage = class _NgOptimizedImage {
       if (!this.ngSrcset) {
         assertNoComplexSizes(this);
       }
+      assertValidPlaceholder(this, this.imageLoader);
       assertNotMissingBuiltInLoader(this.ngSrc, this.imageLoader);
       assertNoNgSrcsetWithoutLoader(this, this.imageLoader);
       assertNoLoaderParamsWithoutLoader(this, this.imageLoader);
@@ -4216,6 +4287,9 @@ var _NgOptimizedImage = class _NgOptimizedImage {
         const checker = this.injector.get(PreconnectLinkChecker);
         checker.assertPreconnect(this.getRewrittenSrc(), this.ngSrc);
       }
+    }
+    if (this.placeholder) {
+      this.removePlaceholderOnLoad(this, this.imgElement, this.renderer);
     }
     this.setHostAttributes();
   }
@@ -4343,6 +4417,48 @@ var _NgOptimizedImage = class _NgOptimizedImage {
     }
     return !this.disableOptimizedSrcset && !this.srcset && this.imageLoader !== noopImageLoader && !oversizedImage;
   }
+  /**
+   * Returns an image url formatted for use with the CSS background-image property. Expects one of:
+   * * A base64 encoded image, which is wrapped and passed through.
+   * * A boolean. If true, calls the image loader to generate a small placeholder url.
+   */
+  generatePlaceholder(placeholderInput) {
+    const {
+      placeholderResolution
+    } = this.config;
+    if (placeholderInput === true) {
+      return `url(${this.callImageLoader({
+        src: this.ngSrc,
+        width: placeholderResolution,
+        isPlaceholder: true
+      })})`;
+    } else if (typeof placeholderInput === "string" && placeholderInput.startsWith("data:")) {
+      return `url(${placeholderInput})`;
+    }
+    return null;
+  }
+  /**
+   * Determines if blur should be applied, based on an optional boolean
+   * property `blur` within the optional configuration object `placeholderConfig`.
+   */
+  shouldBlurPlaceholder(placeholderConfig) {
+    if (!placeholderConfig || !placeholderConfig.hasOwnProperty("blur")) {
+      return true;
+    }
+    return Boolean(placeholderConfig.blur);
+  }
+  removePlaceholderOnLoad(dir, img, renderer) {
+    const removeLoadListenerFn = renderer.listen(img, "load", () => {
+      removeLoadListenerFn();
+      removeErrorListenerFn();
+      dir.placeholder = false;
+    });
+    const removeErrorListenerFn = renderer.listen(img, "error", () => {
+      removeLoadListenerFn();
+      removeErrorListenerFn();
+      dir.placeholder = false;
+    });
+  }
   /** @nodoc */
   ngOnDestroy() {
     if (ngDevMode) {
@@ -4361,10 +4477,10 @@ _NgOptimizedImage.ɵfac = function NgOptimizedImage_Factory(t) {
 _NgOptimizedImage.ɵdir = ɵɵdefineDirective({
   type: _NgOptimizedImage,
   selectors: [["img", "ngSrc", ""]],
-  hostVars: 8,
+  hostVars: 18,
   hostBindings: function NgOptimizedImage_HostBindings(rf, ctx) {
     if (rf & 2) {
-      ɵɵstyleProp("position", ctx.fill ? "absolute" : null)("width", ctx.fill ? "100%" : null)("height", ctx.fill ? "100%" : null)("inset", ctx.fill ? "0px" : null);
+      ɵɵstyleProp("position", ctx.fill ? "absolute" : null)("width", ctx.fill ? "100%" : null)("height", ctx.fill ? "100%" : null)("inset", ctx.fill ? "0" : null)("background-size", ctx.placeholder ? "cover" : null)("background-position", ctx.placeholder ? "50% 50%" : null)("background-repeat", ctx.placeholder ? "no-repeat" : null)("background-image", ctx.placeholder ? ctx.generatePlaceholder(ctx.placeholder) : null)("filter", ctx.placeholder && ctx.shouldBlurPlaceholder(ctx.placeholderConfig) ? "blur(15px)" : null);
     }
   },
   inputs: {
@@ -4378,6 +4494,8 @@ _NgOptimizedImage.ɵdir = ɵɵdefineDirective({
     loaderParams: "loaderParams",
     disableOptimizedSrcset: [InputFlags.HasDecoratorInputTransform, "disableOptimizedSrcset", "disableOptimizedSrcset", booleanAttribute],
     fill: [InputFlags.HasDecoratorInputTransform, "fill", "fill", booleanAttribute],
+    placeholder: [InputFlags.HasDecoratorInputTransform, "placeholder", "placeholder", booleanOrDataUrlAttribute],
+    placeholderConfig: "placeholderConfig",
     src: "src",
     srcset: "srcset"
   },
@@ -4395,7 +4513,12 @@ var NgOptimizedImage = _NgOptimizedImage;
         "[style.position]": 'fill ? "absolute" : null',
         "[style.width]": 'fill ? "100%" : null',
         "[style.height]": 'fill ? "100%" : null',
-        "[style.inset]": 'fill ? "0px" : null'
+        "[style.inset]": 'fill ? "0" : null',
+        "[style.background-size]": 'placeholder ? "cover" : null',
+        "[style.background-position]": 'placeholder ? "50% 50%" : null',
+        "[style.background-repeat]": 'placeholder ? "no-repeat" : null',
+        "[style.background-image]": "placeholder ? generatePlaceholder(placeholder) : null",
+        "[style.filter]": `placeholder && shouldBlurPlaceholder(placeholderConfig) ? "blur(${PLACEHOLDER_BLUR_AMOUNT}px)" : null`
       }
     }]
   }], null, {
@@ -4448,6 +4571,15 @@ var NgOptimizedImage = _NgOptimizedImage;
         transform: booleanAttribute
       }]
     }],
+    placeholder: [{
+      type: Input,
+      args: [{
+        transform: booleanOrDataUrlAttribute
+      }]
+    }],
+    placeholderConfig: [{
+      type: Input
+    }],
     src: [{
       type: Input
     }],
@@ -4486,6 +4618,31 @@ function assertNoComplexSizes(dir) {
   let sizes = dir.sizes;
   if (sizes?.match(/((\)|,)\s|^)\d+px/)) {
     throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc, false)} \`sizes\` was set to a string including pixel values. For automatic \`srcset\` generation, \`sizes\` must only include responsive values, such as \`sizes="50vw"\` or \`sizes="(min-width: 768px) 50vw, 100vw"\`. To fix this, modify the \`sizes\` attribute, or provide your own \`ngSrcset\` value directly.`);
+  }
+}
+function assertValidPlaceholder(dir, imageLoader) {
+  assertNoPlaceholderConfigWithoutPlaceholder(dir);
+  assertNoRelativePlaceholderWithoutLoader(dir, imageLoader);
+  assertNoOversizedDataUrl(dir);
+}
+function assertNoPlaceholderConfigWithoutPlaceholder(dir) {
+  if (dir.placeholderConfig && !dir.placeholder) {
+    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc, false)} \`placeholderConfig\` options were provided for an image that does not use the \`placeholder\` attribute, and will have no effect.`);
+  }
+}
+function assertNoRelativePlaceholderWithoutLoader(dir, imageLoader) {
+  if (dir.placeholder === true && imageLoader === noopImageLoader) {
+    throw new RuntimeError(2963, `${imgDirectiveDetails(dir.ngSrc)} the \`placeholder\` attribute is set to true but no image loader is configured (i.e. the default one is being used), which would result in the same image being used for the primary image and its placeholder. To fix this, provide a loader or remove the \`placeholder\` attribute from the image.`);
+  }
+}
+function assertNoOversizedDataUrl(dir) {
+  if (dir.placeholder && typeof dir.placeholder === "string" && dir.placeholder.startsWith("data:")) {
+    if (dir.placeholder.length > DATA_URL_ERROR_LIMIT) {
+      throw new RuntimeError(2965, `${imgDirectiveDetails(dir.ngSrc)} the \`placeholder\` attribute is set to a data URL which is longer than ${DATA_URL_ERROR_LIMIT} characters. This is strongly discouraged, as large inline placeholders directly increase the bundle size of Angular and hurt page load performance. To fix this, generate a smaller data URL placeholder.`);
+    }
+    if (dir.placeholder.length > DATA_URL_WARN_LIMIT) {
+      console.warn(formatRuntimeError(2965, `${imgDirectiveDetails(dir.ngSrc)} the \`placeholder\` attribute is set to a data URL which is longer than ${DATA_URL_WARN_LIMIT} characters. This is discouraged, as large inline placeholders directly increase the bundle size of Angular and hurt page load performance. For better loading performance, generate a smaller data URL placeholder.`));
+    }
   }
 }
 function assertNotBlobUrl(dir) {
@@ -4677,11 +4834,18 @@ function unwrapSafeUrl(value) {
   }
   return unwrapSafeValue(value);
 }
+function booleanOrDataUrlAttribute(value) {
+  if (typeof value === "string" && value.startsWith(`data:`)) {
+    return value;
+  }
+  return booleanAttribute(value);
+}
 
 export {
   getDOM,
   setRootDomAdapter,
   DomAdapter,
+  PlatformNavigation,
   DOCUMENT,
   PlatformLocation,
   LOCATION_INITIALIZED,
@@ -4774,6 +4938,7 @@ export {
   provideCloudinaryLoader,
   provideImageKitLoader,
   provideImgixLoader,
+  provideNetlifyLoader,
   PRECONNECT_CHECK_BLOCKLIST,
   NgOptimizedImage
 };
@@ -4781,9 +4946,9 @@ export {
 
 @angular/common/fesm2022/common.mjs:
   (**
-   * @license Angular v17.1.2
+   * @license Angular v17.2.1
    * (c) 2010-2022 Google LLC. https://angular.io/
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-EIY5VSXE.js.map
+//# sourceMappingURL=chunk-Q2HYHPGO.js.map

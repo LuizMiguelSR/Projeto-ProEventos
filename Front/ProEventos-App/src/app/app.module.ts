@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { PalestrantesComponent } from './palestrantes/palestrantes.component';
 import { NavComponent } from './nav/nav.component';
+import { TituloComponent } from './shared/titulo/titulo.component';
 
 import { EventoService } from './services/evento.service';
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
@@ -26,7 +27,8 @@ import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
       EventosComponent,
       PalestrantesComponent,
       NavComponent,
-      DateTimeFormatPipe
+      DateTimeFormatPipe,
+      TituloComponent
    ],
   imports: [
     BrowserModule,
