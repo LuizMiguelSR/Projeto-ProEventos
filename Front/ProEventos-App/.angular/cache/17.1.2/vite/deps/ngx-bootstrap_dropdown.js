@@ -1,12 +1,12 @@
 import {
+  ComponentLoaderFactory,
+  PositioningService
+} from "./chunk-AU2TVEZE.js";
+import {
   AnimationBuilder,
   animate,
   style
 } from "./chunk-SRMRTZ3F.js";
-import {
-  ComponentLoaderFactory,
-  PositioningService
-} from "./chunk-AU2TVEZE.js";
 import {
   CommonModule,
   NgClass
