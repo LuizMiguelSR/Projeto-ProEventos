@@ -1,6 +1,6 @@
 import {
   DOCUMENT
-} from "./chunk-FRKGRQ7R.js";
+} from "./chunk-EIY5VSXE.js";
 import {
   ANIMATION_MODULE_TYPE,
   Inject,
@@ -12,7 +12,7 @@ import {
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵinject
-} from "./chunk-5J5OI4EZ.js";
+} from "./chunk-BCLRVXCG.js";
 
 // node_modules/@angular/animations/fesm2022/animations.mjs
 var AnimationMetadataType;
@@ -32,6 +32,14 @@ var AnimationMetadataType;
   AnimationMetadataType2[AnimationMetadataType2["Stagger"] = 12] = "Stagger";
 })(AnimationMetadataType || (AnimationMetadataType = {}));
 var AUTO_STYLE = "*";
+function trigger(name, definitions) {
+  return {
+    type: AnimationMetadataType.Trigger,
+    name,
+    definitions,
+    options: {}
+  };
+}
 function animate(timings, styles = null) {
   return {
     type: AnimationMetadataType.Animate,
@@ -51,6 +59,22 @@ function style(tokens) {
     type: AnimationMetadataType.Style,
     styles: tokens,
     offset: null
+  };
+}
+function state(name, styles, options) {
+  return {
+    type: AnimationMetadataType.State,
+    name,
+    styles,
+    options
+  };
+}
+function transition(stateChangeExpr, steps, options = null) {
+  return {
+    type: AnimationMetadataType.Transition,
+    expr: stateChangeExpr,
+    animation: steps,
+    options
   };
 }
 var _AnimationBuilder = class _AnimationBuilder {
@@ -436,9 +460,12 @@ var ɵPRE_STYLE = "!";
 export {
   AnimationMetadataType,
   AUTO_STYLE,
+  trigger,
   animate,
   sequence,
   style,
+  state,
+  transition,
   AnimationBuilder,
   NoopAnimationPlayer,
   AnimationGroupPlayer,
@@ -453,4 +480,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-7XLOXCSM.js.map
+//# sourceMappingURL=chunk-SRMRTZ3F.js.map
