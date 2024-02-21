@@ -19,10 +19,10 @@ import { PalestrantesComponent } from './components/palestrantes/palestrantes.co
 import { ContatosComponent } from './components/contatos/contatos.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { EventosComponent } from './components/eventos/eventos.component';
 
 import { EventoService } from './services/evento.service';
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
-import { EventosComponent } from './components/eventos/eventos.component';
 
 @NgModule({
   declarations: [
