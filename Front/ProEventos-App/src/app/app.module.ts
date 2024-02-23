@@ -18,7 +18,7 @@ import { TituloComponent } from './shared/titulo/titulo.component';
 import { PalestrantesComponent } from './components/palestrantes/palestrantes.component';
 import { ContatosComponent } from './components/contatos/contatos.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
+import { PerfilComponent } from './components/user/perfil/perfil.component';
 import { EventosComponent } from './components/eventos/eventos.component';
 
 import { EventoService } from './services/evento.service';
