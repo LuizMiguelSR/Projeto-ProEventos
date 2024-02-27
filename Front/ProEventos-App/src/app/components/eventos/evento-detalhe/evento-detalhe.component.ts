@@ -38,4 +38,8 @@ export class EventoDetalheComponent {
     });
   }
 
+  public resetForm(): void {
+    this.form.reset();
+  }
+
 }
