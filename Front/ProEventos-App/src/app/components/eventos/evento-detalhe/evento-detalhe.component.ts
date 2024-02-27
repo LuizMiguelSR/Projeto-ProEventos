@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -10,27 +10,31 @@ export class EventoDetalheComponent {
 
   form!: FormGroup;
 
-  constructor() { }
+  get f(): any {
+    return this.form.controls;
+  }
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.validadtion();
   }
 
   public validadtion(): void {
-    this.form = new FormGroup({
-      tema: new FormControl('',
+    this.form = this.fb.group({
+      tema: ['',
         [Validators.required, Validators.minLength(4), Validators.maxLength(50)]
-      ),
-      local: new FormControl('', Validators.required),
-      dataEvento: new FormControl('', Validators.required),
-      qtdePessoas: new FormControl('',
+      ],
+      local: ['', Validators.required],
+      dataEvento: ['', Validators.required],
+      qtdePessoas: ['',
         [Validators.required, Validators.max(120000)]
-      ),
-      telefone: new FormControl('', Validators.required),
-      email: new FormControl('',
+      ],
+      telefone: ['', Validators.required],
+      email: ['',
         [Validators.required, Validators.email]
-      ),
-      imagemURL: new FormControl('', Validators.required),
+      ],
+      imagemURL: ['', Validators.required],
     });
   }
 
