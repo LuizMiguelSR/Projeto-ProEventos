@@ -22,8 +22,8 @@ export class RegistrationComponent {
 
   private validadtion(): void {
     this.form = this.fb.group({
-      primeiroNome: ['',Validators.required],
-      ultimoNome: ['',Validators.required],
+      primeiroNome: ['', Validators.required],
+      ultimoNome: ['', Validators.required],
       email: ['',
         [Validators.required, Validators.email]
       ],
