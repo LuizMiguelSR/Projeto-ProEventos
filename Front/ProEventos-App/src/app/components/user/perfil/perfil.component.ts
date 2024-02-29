@@ -48,7 +48,16 @@ export class PerfilComponent implements OnInit {
       }, formOptions);
     }
 
-    public resetForm(): void {
+    onSubmit(): void {
+
+      // Vai parar aqui se o form estiver inválido
+      if (this.form.invalid) {
+        return;
+      }
+    }
+
+    public resetForm(event: any): void {
+      event.preventDefault();
       this.form.reset();
     }
 
