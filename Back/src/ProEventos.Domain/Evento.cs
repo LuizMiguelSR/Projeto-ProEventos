@@ -14,7 +14,7 @@ namespace ProEventos.Domain
         public int QtdePessoas { get; set; }
         public string Lote { get; set; }
         public string ImagemURL { get; set; }
-        public int Telefone { get; set; }
+        public string Telefone { get; set; }
         public string Email { get; set; }
         public IEnumerable<Lote> Lotes { get; set; }
         public IEnumerable<RedeSocial> RedesSociais { get; set; }
