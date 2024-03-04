@@ -23,6 +23,10 @@ namespace ProEventos.Application.Dtos
         ]
         public int QtdePessoas { get; set; }
         public string Lote { get; set; }
+
+        [
+            RegularExpression(@".*\.(gif|jpe?g|bmp|png)$", ErrorMessage = "Não é uma imagem válida. (gif, jpg, jpeg, png e bmp)")
+        ]
         public string ImagemURL { get; set; }
 
         [
