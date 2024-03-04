@@ -1,15 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProEventos.Domain
 {
+    [Table("EventosDetalhes")]
     public class Evento
     {
         public int Id { get; set; }
         public string Local { get; set; }
         public DateTime? DataEvento { get; set; }
+
+        [NotMapped]
+        public int ContagemDias { get; set; }
+
+        [Required]
         public string Tema { get; set; }
         public int QtdePessoas { get; set; }
         public string Lote { get; set; }
