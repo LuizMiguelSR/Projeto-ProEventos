@@ -10,7 +10,7 @@ export interface Evento {
   qtdePessoas: number;
   lote: string;
   imagemURL: string;
-  telefone: number;
+  telefone: string;
   email: string;
   lotes: Lote[];
   redesSociais: RedeSocial[];

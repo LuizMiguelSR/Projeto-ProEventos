@@ -27,6 +27,9 @@ namespace ProEventos.Persistence.Contextos
                 .HasMany(e => e.RedesSociais)
                 .WithOne(rs => rs.Palestrante)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Evento>()
+                .Ignore(e => e.ContagemDias);
         }
     }
 }

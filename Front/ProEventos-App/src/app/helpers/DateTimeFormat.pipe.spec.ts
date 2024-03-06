@@ -5,7 +5,8 @@ import { DateTimeFormatPipe } from './DateTimeFormat.pipe';
 
 describe('Pipe: DateTimeFormate', () => {
   it('create an instance', () => {
-    let pipe = new DateTimeFormatPipe();
+    let locale = 'pt-BR';
+    let pipe = new DateTimeFormatPipe(locale);
     expect(pipe).toBeTruthy();
   });
 });

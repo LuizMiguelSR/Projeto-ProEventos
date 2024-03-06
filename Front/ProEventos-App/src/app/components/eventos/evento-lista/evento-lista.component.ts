@@ -63,6 +63,7 @@ export class EventoListaComponent {
         this.eventosFiltrados = this.eventos;
       },
       error: (error: any) => {
+        console.error('Erro ao carregar os eventos:', error);
         this.spinner.hide();
         this.toastr.error('Erro ao carregar os eventos', 'Erro!');
       },
