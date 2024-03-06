@@ -10,6 +10,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -56,6 +57,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
     FormsModule,
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 5000,
