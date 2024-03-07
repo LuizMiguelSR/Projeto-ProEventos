@@ -80,6 +80,22 @@ export class EventoListaComponent {
 
   confirm(): void {
     this.modalRef?.hide();
+    this.spinner.show();
+    this.eventoService.deleteEvento(this.eventoId).subscribe(
+      (result: string) => {
+        if (result === 'Deletado') {
+          this.toastr.success('O evento foi deletado com sucesso.', 'Deletado');
+          this.spinner.hide();
+          this.getEventos();
+        }
+      },
+      (error: any) => {
+        console.error(error);
+        this.toastr.error(`Erro ao tentar deletar o evento  ${this.eventoId}`, 'Erro');
+        this.spinner.hide();
+      },
+      () => this.spinner.hide(),
+    );
     this.toastr.success('O evento foi deletado com sucesso.', 'Deletado');
   }
 
