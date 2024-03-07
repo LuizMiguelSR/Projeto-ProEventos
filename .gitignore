@@ -514,7 +514,6 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
 .sass-cache/
 /connect.lock
 /coverage
@@ -529,3 +528,4 @@ Thumbs.db
 *.db
 *.db-shm
 *.db-wal
+Front/ProEventos-App/.angular/cache/
