@@ -15,6 +15,7 @@ export class EventoListaComponent {
   modalRef?: BsModalRef;
   public eventos: Evento[] = [];
   public eventosFiltrados: Evento[] = [];
+  public eventoId = 0;
 
   public laguraImagem: number = 150;
   public margemimagem: number = 2;
@@ -71,7 +72,9 @@ export class EventoListaComponent {
     });
   }
 
-  openModal(template: TemplateRef<void>): void {
+  openModal(event: any, template: TemplateRef<void>, eventoId: number): void {
+    event.stopPropagation();
+    this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
