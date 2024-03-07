@@ -23,7 +23,7 @@ export class EventoListaComponent {
   private _filtroListado: string = '';
 
   public get filtroLista() {
-    return this._filtroListado
+    return this._filtroListado;
   }
 
   public set filtroLista(value: string) {
@@ -72,7 +72,7 @@ export class EventoListaComponent {
     });
   }
 
-  openModal(event: any, template: TemplateRef<void>, eventoId: number): void {
+  openModal(event: any, template: TemplateRef<any>, eventoId: number): void {
     event.stopPropagation();
     this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
@@ -81,22 +81,19 @@ export class EventoListaComponent {
   confirm(): void {
     this.modalRef?.hide();
     this.spinner.show();
+
     this.eventoService.deleteEvento(this.eventoId).subscribe(
-      (result: string) => {
-        if (result === 'Deletado') {
-          this.toastr.success('O evento foi deletado com sucesso.', 'Deletado');
-          this.spinner.hide();
+      (result: any) => {
+        if (result.message === 'Deletado') {
+          this.toastr.success('O Evento foi deletado com Sucesso.', 'Deletado!');
           this.getEventos();
         }
       },
       (error: any) => {
         console.error(error);
         this.toastr.error(`Erro ao tentar deletar o evento  ${this.eventoId}`, 'Erro');
-        this.spinner.hide();
-      },
-      () => this.spinner.hide(),
-    );
-    this.toastr.success('O evento foi deletado com sucesso.', 'Deletado');
+      }
+    ).add(() => this.spinner.hide());
   }
 
   decline(): void {
