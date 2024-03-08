@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-evento-lista',
   templateUrl: './evento-lista.component.html',
-  styleUrl: './evento-lista.component.scss'
+  styleUrls: ['./evento-lista.component.scss']
 })
 export class EventoListaComponent {
-  modalRef?: BsModalRef;
+  modalRef!: BsModalRef;
   public eventos: Evento[] = [];
   public eventosFiltrados: Evento[] = [];
   public eventoId = 0;
@@ -21,6 +21,12 @@ export class EventoListaComponent {
   public margemimagem: number = 2;
   public exibirImagem: boolean = true;
   private _filtroListado: string = '';
+
+
+  public ngOnInit(): void {
+    this.spinner.show();
+    this.carregarEventos();
+  }
 
   public get filtroLista() {
     return this._filtroListado;
@@ -48,16 +54,11 @@ export class EventoListaComponent {
     private router: Router
   ) { }
 
-  public ngOnInit(): void {
-    this.spinner.show();
-    this.getEventos();
-  }
-
   public alterarImagem(): void {
     this.exibirImagem = !this.exibirImagem;
   }
 
-  public getEventos(): void {
+  public carregarEventos(): void {
     this.eventoService.getEventos().subscribe({
       next: (eventos: Evento[]) => {
         this.eventos = eventos;
@@ -78,26 +79,26 @@ export class EventoListaComponent {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
-  confirm(): void {
-    this.modalRef?.hide();
+  public confirm(): void {
+    this.modalRef.hide();
     this.spinner.show();
 
     this.eventoService.deleteEvento(this.eventoId).subscribe(
       (result: any) => {
-        if (result.message === 'Deletado') {
+        if (result && result.message === 'Deletado') {
           this.toastr.success('O Evento foi deletado com Sucesso.', 'Deletado!');
-          this.getEventos();
+          this.carregarEventos();
         }
       },
       (error: any) => {
         console.error(error);
-        this.toastr.error(`Erro ao tentar deletar o evento  ${this.eventoId}`, 'Erro');
+        this.toastr.error(`Erro ao tentar deletar o evento ${this.eventoId}`, 'Erro');
       }
     ).add(() => this.spinner.hide());
   }
 
   decline(): void {
-    this.modalRef?.hide();
+    this.modalRef.hide();
   }
 
   detalheEvento(id: number): void {
