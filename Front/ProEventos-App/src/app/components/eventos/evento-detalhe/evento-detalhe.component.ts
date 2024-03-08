@@ -104,30 +104,19 @@ export class EventoDetalheComponent implements OnInit {
     this.spinner.show();
     if (this.form.valid) {
 
-      if (this.estadoSalvar === 'post') {
-        this.evento = {...this.form.value};
-        this.eventoService.post(this.evento).subscribe(
-          () => this.toastr.success('Evento salvo com sucesso!', 'Sucesso'),
-          (error: any) => {
-            console.error(error);
-            this.spinner.hide();
-            this.toastr.error('Error ao salavar evento', 'Erro');
-          },
-          () => this.spinner.hide(),
-        );
-      } else {
-        this.evento = {id: this.evento.id, ...this.form.value};
-        this.eventoService.put(this.evento.id).subscribe(
-          () => this.toastr.success('Evento salvo com sucesso!', 'Sucesso'),
-          (error: any) => {
-            console.error(error);
-            this.spinner.hide();
-            this.toastr.error('Error ao salavar evento', 'Erro');
-          },
-          () => this.spinner.hide(),
-        );
-      }
+      this.evento =  (this.estadoSalvar === 'post')
+          ? {...this.form.value}
+          : {id: this.evento.id, ...this.form.value};
 
+      this.eventoService[this.estadoSalvar](this.evento).subscribe(
+        () => this.toastr.success('Evento salvo com sucesso!', 'Sucesso'),
+        (error: any) => {
+          console.error(error);
+          this.spinner.hide();
+          this.toastr.error('Error ao salavar evento', 'Erro');
+        },
+        () => this.spinner.hide(),
+      );
     }
   }
 }
