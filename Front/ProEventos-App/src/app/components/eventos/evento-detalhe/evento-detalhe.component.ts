@@ -18,6 +18,7 @@ export class EventoDetalheComponent implements OnInit {
 
   evento = {} as Evento;
   form!: FormGroup;
+  estadoSalvar = 'post';
 
   get f(): any {
     return this.form.controls;
@@ -45,8 +46,12 @@ export class EventoDetalheComponent implements OnInit {
 
   public carregarEvento(): void {
     const eventoIdParam = this.router.snapshot.paramMap.get('id');
+
     if (eventoIdParam !== null) {
       this.spinner.show();
+
+      this.estadoSalvar = 'put';
+
       this.eventoService.getEventoById(+eventoIdParam).subscribe(
         (evento: Evento) => {
           this.evento = {...evento};
@@ -98,18 +103,31 @@ export class EventoDetalheComponent implements OnInit {
   public salvarAlteracao(): void {
     this.spinner.show();
     if (this.form.valid) {
-      
-      this.evento = {...this.form.value};
 
-      this.eventoService.post(this.evento).subscribe(
-        () => this.toastr.success('Evento salvo com sucesso!', 'Sucesso'),
-        (error: any) => {
-          console.error(error);
-          this.spinner.hide();
-          this.toastr.error('Error ao salavar evento', 'Erro');
-        },
-        () => this.spinner.hide(),
-      );
+      if (this.estadoSalvar === 'post') {
+        this.evento = {...this.form.value};
+        this.eventoService.post(this.evento).subscribe(
+          () => this.toastr.success('Evento salvo com sucesso!', 'Sucesso'),
+          (error: any) => {
+            console.error(error);
+            this.spinner.hide();
+            this.toastr.error('Error ao salavar evento', 'Erro');
+          },
+          () => this.spinner.hide(),
+        );
+      } else {
+        this.evento = {id: this.evento.id, ...this.form.value};
+        this.eventoService.put(this.evento.id).subscribe(
+          () => this.toastr.success('Evento salvo com sucesso!', 'Sucesso'),
+          (error: any) => {
+            console.error(error);
+            this.spinner.hide();
+            this.toastr.error('Error ao salavar evento', 'Erro');
+          },
+          () => this.spinner.hide(),
+        );
+      }
+
     }
   }
 }
