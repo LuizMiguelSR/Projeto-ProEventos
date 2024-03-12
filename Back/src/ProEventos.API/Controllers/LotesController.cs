@@ -25,7 +25,7 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var lotes = await _LoteService.GetEventoByIdAsync(true);
+                var lotes = await _loteService.GetLotesByEventoIdAsync(eventoId);
                 if (lotes == null) return NoContent();
 
                 return Ok(lotes);
@@ -41,7 +41,7 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var lotes = await _LoteService.SaveLotes(lotesId, models);
+                var lotes = await _loteService.SaveLotes(eventoId, models);
                 if (lotes == null) return NoContent();
 
                 return Ok(lotes);
@@ -53,14 +53,14 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpDelete("{eventoId}/{loteId}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int eventoId, int loteId)
         {
             try
             {
-                var lote = await _LoteService.GetLoteByIdsAsync(eventoId, loteId);
+                var lote = await _loteService.GetLoteByIdsAsync(eventoId, loteId);
                 if (lote == null) return NoContent();
 
-                return await _LoteService.DeleteLote(lote.eventoId, lote.Id) 
+                return await _loteService.DeleteLote(lote.EventoId, lote.Id) 
                         ? Ok( new { message = "Lote deletado" }) 
                         : throw new Exception("Ocorreu um problema não específico ao tentar deletar o Lote.");
             }
