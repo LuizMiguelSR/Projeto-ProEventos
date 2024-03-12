@@ -25,30 +25,30 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var eventos = await _eventoService.GetEventoByIdAsync(true);
-                if (eventos == null) return NoContent();
+                var lotes = await _LoteService.GetEventoByIdAsync(true);
+                if (lotes == null) return NoContent();
 
-                return Ok(eventos);
+                return Ok(lotes);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar eventos. Erro: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar lotes. Erro: {ex.Message}");
             }
         }
 
         [HttpPut("{eventoId}")]
-        public async Task<IActionResult> Put(int eventoId, LoteDto[] models)
+        public async Task<IActionResult> SaveLotes(int eventoId, LoteDto[] models)
         {
             try
             {
-                var evento = await _eventoService.UpdateEvento(id, models);
-                if (evento == null) return NoContent();
+                var lotes = await _LoteService.SaveLotes(lotesId, models);
+                if (lotes == null) return NoContent();
 
-                return Ok(evento);
+                return Ok(lotes);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar atualizar eventos. Erro: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar salvar lotes. Erro: {ex.Message}");
             }
         }
 
@@ -57,16 +57,16 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var evento = await _eventoService.GetEventoByIdAsync(id, true);
-                if (evento == null) return NoContent();
+                var lote = await _LoteService.GetLoteByIdsAsync(eventoId, loteId);
+                if (lote == null) return NoContent();
 
-                return await _eventoService.DeleteEvento(id) 
-                        ? Ok( new { message = "Deletado" }) 
-                        : throw new Exception("Ocorreu um problema não específico ao tentar deletar o Evento.");
+                return await _LoteService.DeleteLote(lote.eventoId, lote.Id) 
+                        ? Ok( new { message = "Lote deletado" }) 
+                        : throw new Exception("Ocorreu um problema não específico ao tentar deletar o Lote.");
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar deletar eventos. Erro: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar deletar lotes. Erro: {ex.Message}");
             }
         }
     }
