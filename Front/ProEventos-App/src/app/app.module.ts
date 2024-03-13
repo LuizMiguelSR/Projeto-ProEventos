@@ -25,6 +25,8 @@ import { PerfilComponent } from './components/user/perfil/perfil.component';
 import { EventosComponent } from './components/eventos/eventos.component';
 
 import { EventoService } from './services/evento.service';
+import { LoteService } from './services/lote.service';
+
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
 import { EventoDetalheComponent } from './components/eventos/evento-detalhe/evento-detalhe.component';
 import { EventoListaComponent } from './components/eventos/evento-lista/evento-lista.component';
@@ -73,7 +75,8 @@ defineLocale('pt-br', ptBrLocale);
   ],
   providers: [
     EventoService, // 2° Forma
-    provideClientHydration()
+    provideClientHydration(),
+    LoteService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
