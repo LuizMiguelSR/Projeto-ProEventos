@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
+
 import { EventoService } from '@app/services/evento.service';
 import { LoteService } from '@app/services/lote.service';
 
@@ -69,6 +70,9 @@ export class EventoDetalheComponent implements OnInit {
         (evento: Evento) => {
           this.evento = {...evento};
           this.form.patchValue(this.evento);
+          this.evento.lotes.forEach(lote => {
+            this.lotes.push(this.criarLote(lote));
+          });
         },
         (error: any) => {
           this.spinner.hide();
