@@ -139,6 +139,10 @@ export class EventoDetalheComponent implements OnInit {
     })
   }
 
+  public mudarValorData(value: Date, indice: number, campo: string): void {
+    this.lotes.value[indice][campo] = value;
+  }
+
   public resetForm(): void {
     this.form.reset();
   }

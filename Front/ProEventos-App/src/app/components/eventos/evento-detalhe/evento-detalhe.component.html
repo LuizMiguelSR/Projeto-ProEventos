@@ -171,16 +171,20 @@
             <div class="form-group col-md-4">
               <label>Data Início</label>
               <input type="datetime" class="form-control"
-                  bsDatepicker
-                  [bsConfig]="bsConfigLote"
-                  placeholder="01/01/2019">
+                formControlName="dataInicio"
+                placeholder="01/01/2019"
+                bsDatepicker
+                [bsConfig]="bsConfigLote"
+              >
             </div>
             <div class="form-group col-md-4">
               <label>Data Fim</label>
               <input type="datetime" class="form-control"
-                  bsDatepicker
-                  [bsConfig]="bsConfigLote"
-                  placeholder="01/01/2019">
+                formControlName="dataFim"
+                placeholder="01/01/2019"
+                bsDatepicker
+                [bsConfig]="bsConfigLote"
+              >
             </div>
           </div>
         </fieldset>
