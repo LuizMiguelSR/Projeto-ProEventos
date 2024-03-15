@@ -138,6 +138,7 @@
         <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i=index">
           <fieldset [formGroupName]="i" class="form-group">
             <legend class="d-flex justify-content-between capitalize">
+              {{ retornaTituloLote(lotes.get(i+'.nome').value) }}
               <button (click)="removerLote(template, i)" class="p-2 btn btn-sm btn-outline-warning mb-1 d-flex"
                 tooltip="Excluir Lote"
                 [adaptivePosition]="false"
@@ -164,6 +165,8 @@
               <label>Preço</label>
               <input type="text"
                   class="form-control"
+                  currencyMask
+                  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
                   [ngClass]="cssValidator(lotes.get(i+'.preco'))"
                   formControlName="preco"
                   placeholder="R$ 0,00">
