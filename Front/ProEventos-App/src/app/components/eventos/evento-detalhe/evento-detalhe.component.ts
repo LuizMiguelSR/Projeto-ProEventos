@@ -175,8 +175,8 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public salvarLotes(): void {
-    this.spinner.show();
     if (this.form.get('lotes')?.valid) {
+      this.spinner.show();
       this.loteService.saveLote(this.eventoId, this.form.value.lotes)
         .subscribe(
           () => {

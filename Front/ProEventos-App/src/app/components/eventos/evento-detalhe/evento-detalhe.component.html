@@ -201,7 +201,7 @@
     <button class="btn btn-outline-secondary mr-auto border">
       Cancelar Alteração
     </button>
-    <button (click)="salvarLotes()" class="btn btn-success">
+    <button (click)="salvarLotes()" [disabled]="!form.valid" class="btn btn-success">
       Salvar Lotes
     </button>
   </div>
