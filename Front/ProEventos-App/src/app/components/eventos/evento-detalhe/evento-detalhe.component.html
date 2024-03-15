@@ -172,14 +172,14 @@
               <label>Data Início</label>
               <input type="datetime" class="form-control"
                   bsDatepicker
-                  value="{{lotes.get(i+'.dataInicio').value | date:'dd/MM/yyyy'}}"
+                  [bsConfig]="bsConfigLote"
                   placeholder="01/01/2019">
             </div>
             <div class="form-group col-md-4">
               <label>Data Fim</label>
               <input type="datetime" class="form-control"
                   bsDatepicker
-                  value="{{lotes.get(i+'.dataFim').value | date:'dd/MM/yyyy'}}"
+                  [bsConfig]="bsConfigLote"
                   placeholder="01/01/2019">
             </div>
           </div>
