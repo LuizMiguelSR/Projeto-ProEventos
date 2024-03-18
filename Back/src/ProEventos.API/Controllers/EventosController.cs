@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProEventos.Application.Dtos;
 using ProEventos.Application.Contratos;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ProEventos.API.Controllers
 {
@@ -13,11 +15,12 @@ namespace ProEventos.API.Controllers
     public class EventosController : ControllerBase
     {
         private readonly IEventoService _eventoService;
-        
-        public EventosController(IEventoService eventoService)
+        private readonly IWebHostEnvironment _hostEnvironment;
+
+        public EventosController(IEventoService eventoService, IWebHostEnvironment hostEnvironment)
         {
             _eventoService = eventoService;
-            
+            this.hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -95,7 +98,7 @@ namespace ProEventos.API.Controllers
                 var file = Request.Form.Files[0];
                 if (file.length > 0)
                 {
-                    // DeleteImage(evento.ImageURL);
+                    DeleteImage(evento.ImageURL);
                     // evento.ImageURL = SaveImage(file);
                 }
 
@@ -141,6 +144,14 @@ namespace ProEventos.API.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar deletar eventos. Erro: {ex.Message}");
             }
+        }
+
+        [NonAction]
+        public void DeleteImage(string imageName)
+        {
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/images", imageName);
+            if (System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
         }
     }
 }
