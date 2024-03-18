@@ -7,6 +7,7 @@ using ProEventos.Application.Dtos;
 using ProEventos.Application.Contratos;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Linq;
 
 namespace ProEventos.API.Controllers
 {
@@ -99,7 +100,7 @@ namespace ProEventos.API.Controllers
                 if (file.length > 0)
                 {
                     DeleteImage(evento.ImageURL);
-                    // evento.ImageURL = SaveImage(file);
+                    evento.ImageURL = SaveImage(file);
                 }
 
                 var EventoRetorno = await _eventoService.UpdateEvento(eventoId, evento);
@@ -144,6 +145,25 @@ namespace ProEventos.API.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar deletar eventos. Erro: {ex.Message}");
             }
+        }
+
+        [NonAction]
+        public async Task<string> SaveImage(string imageName)
+        {
+            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName)
+                                                .Take(10)
+                                                .ToArray()
+                                            ).Replace(' ', '-');
+            imageName = $"{imageName}{DateTime.UtcNow.ToString("yymmssfff")}{Path.GetExtension(imageFile.FileName)}";
+
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/images", imageName);
+
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+
+            return imageName;
         }
 
         [NonAction]
