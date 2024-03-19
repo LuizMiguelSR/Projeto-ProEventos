@@ -26,6 +26,7 @@ export class EventoDetalheComponent implements OnInit {
   form!: FormGroup;
   estadoSalvar = 'post';
   loteAtual = {id: 0, nome: '', indice: 0};
+  imagemURL = 'assets/upload.png';
 
   get modoEditar(): boolean {
     return this.estadoSalvar === 'put';
@@ -73,9 +74,10 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public carregarEvento(): void {
-    this.eventoId = +this.activatedRouter.snapshot.paramMap.get('id');
+    const id = this.activatedRouter.snapshot.paramMap.get('id');
 
-    if (this.eventoId !== null || this.eventoId === 0) {
+    if (id) {
+      this.eventoId = +id;
       this.spinner.show();
 
       this.estadoSalvar = 'put';
@@ -84,9 +86,11 @@ export class EventoDetalheComponent implements OnInit {
         (evento: Evento) => {
           this.evento = {...evento};
           this.form.patchValue(this.evento);
-          this.evento.lotes.forEach(lote => {
-            this.lotes.push(this.criarLote(lote));
-          });
+          if (this.evento && this.evento.lotes) {
+            this.evento.lotes.forEach(lote => {
+              this.lotes.push(this.criarLote(lote));
+            });
+          }
         },
         (error: any) => {
           this.spinner.hide();
@@ -158,14 +162,14 @@ export class EventoDetalheComponent implements OnInit {
   public salvarEvento(): void {
     this.spinner.show();
     if (this.form.valid) {
-
-      this.evento =  (this.estadoSalvar === 'post')
-          ? {...this.form.value}
-          : {id: this.evento.id, ...this.form.value};
+      this.evento =
+        this.estadoSalvar === 'post'
+          ? { ...this.form.value }
+          : { id: this.evento.id, ...this.form.value };
 
       this.eventoService[this.estadoSalvar](this.evento).subscribe(
         (eventoRetorno: Evento) => {
-          this.toastr.success('Evento salvo com sucesso!', 'Sucesso');
+          this.toastr.success('Evento salvo com Sucesso!', 'Sucesso');
           this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`]);
         },
         (error: any) => {
@@ -173,7 +177,7 @@ export class EventoDetalheComponent implements OnInit {
           this.spinner.hide();
           this.toastr.error('Error ao salvar evento', 'Erro');
         },
-        () => this.spinner.hide(),
+        () => this.spinner.hide()
       );
     }
   }
