@@ -7,6 +7,7 @@ import { Lote } from '@app/models/Lote';
 
 import { EventoService } from '@app/services/evento.service';
 import { LoteService } from '@app/services/lote.service';
+import { readSync } from 'fs';
 
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -27,6 +28,7 @@ export class EventoDetalheComponent implements OnInit {
   estadoSalvar = 'post';
   loteAtual = {id: 0, nome: '', indice: 0};
   imagemURL = 'assets/upload.png';
+  file = File;
 
   get modoEditar(): boolean {
     return this.estadoSalvar === 'put';
@@ -227,5 +229,14 @@ export class EventoDetalheComponent implements OnInit {
 
   public declineDeleteLote(): void {
     this.modalRef.hide();
+  }
+
+  onFileChange(ev: any): void {
+    const reader = new FileReader();
+
+    reader.onload = (event: any) => this.imagemURL = event.target.result;
+
+    this.file = ev.target.files;
+    reader.readAsDataURL(this.file[0]);
   }
 }
