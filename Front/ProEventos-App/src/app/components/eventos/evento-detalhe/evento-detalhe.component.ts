@@ -28,7 +28,7 @@ export class EventoDetalheComponent implements OnInit {
   estadoSalvar = 'post';
   loteAtual = {id: 0, nome: '', indice: 0};
   imagemURL = 'assets/upload.png';
-  file = File;
+  file: File;
 
   get modoEditar(): boolean {
     return this.estadoSalvar === 'put';
@@ -231,12 +231,28 @@ export class EventoDetalheComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  onFileChange(ev: any): void {
+  public onFileChange(ev: any): void {
     const reader = new FileReader();
 
     reader.onload = (event: any) => this.imagemURL = event.target.result;
 
     this.file = ev.target.files;
     reader.readAsDataURL(this.file[0]);
+
+    this.uploadImagem();
+  }
+
+  public uploadImagem(): void {
+    this.spinner.show();
+    this.eventoService.postUpload(this.eventoId, this.file).subscribe(
+      () => {
+        this.carregarEvento();
+        this.toastr.success('Imagem atualizada com sucesso', 'Sucesso');
+      },
+      (error: any) => {
+        this.toastr.error('Error ao fazer upload da imagem', 'Erro');
+        console.error(error);
+      }
+    ).add(() => this.spinner.hide());
   }
 }
