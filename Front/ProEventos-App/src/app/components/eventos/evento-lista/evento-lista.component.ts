@@ -58,6 +58,12 @@ export class EventoListaComponent {
     this.exibirImagem = !this.exibirImagem;
   }
 
+  public mostraImagem(imagemURL: string): string {
+    return (imagemURL !== '')
+      ? `http://localhost:5000/resources/images/${imagemURL}`
+      : 'assets/upload.png'
+  }
+
   public carregarEventos(): void {
     this.eventoService.getEventos().subscribe({
       next: (eventos: Evento[]) => {

@@ -84,10 +84,15 @@ export class EventoDetalheComponent implements OnInit {
 
       this.estadoSalvar = 'put';
 
-      this.eventoService.getEventoById(+this.eventoId).subscribe(
+      this.eventoService
+        .getEventoById(+this.eventoId)
+        .subscribe(
         (evento: Evento) => {
           this.evento = {...evento};
           this.form.patchValue(this.evento);
+          if (this.evento.imagemURL !== '') {
+            this.imagemURL = 'http://localhost:5000/' + 'resources/images/' + this.evento.imagemURL;
+          }
           if (this.evento && this.evento.lotes) {
             this.evento.lotes.forEach(lote => {
               this.lotes.push(this.criarLote(lote));
@@ -125,7 +130,7 @@ export class EventoDetalheComponent implements OnInit {
       email: ['',
         [Validators.required, Validators.email]
       ],
-      imagemURL: ['', Validators.required],
+      imagemURL: [''],
       lotes: this.fb.array([])
     });
   }
