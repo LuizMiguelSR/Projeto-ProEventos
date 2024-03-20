@@ -14,6 +14,7 @@
                 [ngClass]="cssValidator(f.tema)"
                 formControlName="tema"
                 placeholder="Insira o Tema"
+                [(ngModel)]="evento.tema"
               >
               <div *ngIf="f.tema?.hasError('required')" class="invalid-feedback">
                 Tema é obrigatório.
@@ -36,6 +37,7 @@
                 [ngClass]="cssValidator(f.local)"
                 formControlName="local"
                 placeholder=""
+                [(ngModel)]="evento.local"
               >
               <div *ngIf="f.local?.hasError('required')" class="invalid-feedback">Local é obrigatório</div>
             </div>
@@ -51,6 +53,7 @@
                 [bsConfig]="bsConfig"
                 formControlName="dataEvento"
                 placeholder=""
+                [(ngModel)]="evento.dataEvento"
               >
               <div *ngIf="f.dataEvento?.hasError('required')" class="invalid-feedback">Data e Hora é obrigatório</div>
             </div>
@@ -65,6 +68,7 @@
                 [ngClass]="cssValidator(f.qtdePessoas)"
                 formControlName="qtdePessoas"
                 placeholder=""
+                [(ngModel)]="evento.qtdePessoas"
               >
               <div *ngIf="f.qtdePessoas?.hasError('required')" class="invalid-feedback">Qtd Pessoas é obrigatório</div>
               <div *ngIf="f.qtdePessoas?.hasError('max')" class="invalid-feedback">O máximo de pessoas permitido é de 120000</div>
@@ -78,6 +82,7 @@
                 [ngClass]="cssValidator(f.telefone)"
                 formControlName="telefone"
                 placeholder="(000) 90000-0000"
+                [(ngModel)]="evento.telefone"
               >
               <div *ngIf="f.telefone?.hasError('required')" class="invalid-feedback">Telefone é obrigatório</div>
             </div>
@@ -90,6 +95,7 @@
                 [ngClass]="cssValidator(f.email)"
                 formControlName="email"
                 placeholder="e-mail"
+                [(ngModel)]="evento.email"
               >
               <div *ngIf="f.email?.hasError('required')" class="invalid-feedback">E-mail é obrigatório</div>
               <div *ngIf="f.email?.hasError('email')" class="invalid-feedback">E-mail deve ser no formato correto</div>
