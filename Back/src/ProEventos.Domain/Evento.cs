@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ProEventos.Domain.Identity;
 
 namespace ProEventos.Domain
 {
