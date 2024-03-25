@@ -67,3 +67,8 @@ C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEvent
 C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEventos.API\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEventos.API\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEventos.API\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEventos.API\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEventos.API\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEventos.API\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEventos.API\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Luiz Miguel\Documents\Repositorios\Projeto-ProEventos\Back\src\ProEventos.API\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
