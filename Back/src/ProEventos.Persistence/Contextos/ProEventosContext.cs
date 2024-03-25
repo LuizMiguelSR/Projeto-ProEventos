@@ -6,8 +6,8 @@ using ProEventos.Domain.Identity;
 
 namespace ProEventos.Persistence.Contextos
 {
-    public class ProEventosContext : IdentityDbContext<IdentityDbContext<User, Role, int, 
-                                                                        IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>>
+    public class ProEventosContext : IdentityDbContext<User, Role, int, 
+                                                                        IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public ProEventosContext(DbContextOptions<ProEventosContext> options) 
             : base(options) { }
@@ -19,6 +19,24 @@ namespace ProEventos.Persistence.Contextos
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserRole>(userRole => 
+                {
+                    userRole.HasKey(ur => new { ur.UserId, ur.RoleId});
+
+                    userRole.HasOne(ur => ur.Role)
+                            .WithMany(r => r.UserRoles)
+                            .HasForeignKey(ur => ur.RoleId)
+                            .IsRequired();
+
+                    userRole.HasOne(ur => ur.User)
+                            .WithMany(r => r.UserRoles)
+                            .HasForeignKey(ur => ur.UserId)
+                            .IsRequired();
+                }
+            );
+
             modelBuilder.Entity<PalestranteEvento>()
                 .HasKey(PE => new {PE.EventoId, PE.PalestranteId});
 
