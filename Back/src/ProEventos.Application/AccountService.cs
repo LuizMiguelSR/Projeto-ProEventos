@@ -20,26 +20,28 @@ namespace ProEventos.Application
         private readonly IUserPersist _userPersist;
 
         public AccountService(UserManager<User> userManager,
-                                SignInManager<User> signInManager,
-                                IMapper mapper,
-                                IUserPersist userPersist)
+                              SignInManager<User> signInManager,
+                              IMapper mapper,
+                              IUserPersist userPersist)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _userPersist = userPersist;
         }
-        public async Task<SignInResult> ChecUserPasswordAsync(UserUpdateDto userUpdateDto, string password)
+
+        public async Task<SignInResult> CheckUserPasswordAsync(UserUpdateDto userUpdateDto, string password)
         {
             try
             {
                 var user = await _userManager.Users
                                              .SingleOrDefaultAsync(user => user.UserName == userUpdateDto.UserName.ToLower());
+
                 return await _signInManager.CheckPasswordSignInAsync(user, password, false);
             }
             catch (System.Exception ex)
             {
-                throw new Exception($"Erro ao tentar verificar password. Erro:{ex.Message}");
+                throw new Exception($"Erro ao tentar verificar password. Erro: {ex.Message}");
             }
         }
 
@@ -50,33 +52,33 @@ namespace ProEventos.Application
                 var user = _mapper.Map<User>(userDto);
                 var result = await _userManager.CreateAsync(user, userDto.Password);
 
-                if (result.Succeeded) 
+                if (result.Succeeded)
                 {
                     var userToReturn = _mapper.Map<UserDto>(user);
                     return userToReturn;
                 }
+
                 return null;
             }
             catch (System.Exception ex)
             {
-                throw new Exception($"Erro ao tentar criar usuário. Erro:{ex.Message}");
+                throw new Exception($"Erro ao tentar Criar Usuário. Erro: {ex.Message}");
             }
         }
 
-        public async Task<UserUpdateDto> GetUserByUserNameAsync(string username)
+        public async Task<UserUpdateDto> GetUserByUserNameAsync(string userName)
         {
             try
             {
-                var user = await _userPersist.GetUserByUserNameAsync(username);
-
+                var user = await _userPersist.GetUserByUserNameAsync(userName);
                 if (user == null) return null;
-                
+
                 var userUpdateDto = _mapper.Map<UserUpdateDto>(user);
                 return userUpdateDto;
             }
             catch (System.Exception ex)
             {
-                throw new Exception($"Erro ao tentar pegar usuário por username. Erro:{ex.Message}");
+                throw new Exception($"Erro ao tentar pegar Usuário por Username. Erro: {ex.Message}");
             }
         }
 
@@ -97,13 +99,15 @@ namespace ProEventos.Application
                 if (await _userPersist.SaveChangesAsync())
                 {
                     var userRetorno = await _userPersist.GetUserByUserNameAsync(user.UserName);
+
                     return _mapper.Map<UserUpdateDto>(userRetorno);
                 }
+
                 return null;
             }
             catch (System.Exception ex)
             {
-                throw new Exception($"Erro ao tentar atualizar usuário. Erro:{ex.Message}");
+                throw new Exception($"Erro ao tentar atualizar usuário. Erro: {ex.Message}");
             }
         }
 
@@ -116,7 +120,7 @@ namespace ProEventos.Application
             }
             catch (System.Exception ex)
             {
-                throw new Exception($"Erro ao verificar se o usuário existe. Erro:{ex.Message}");
+                throw new Exception($"Erro ao verificar se usuário existe. Erro: {ex.Message}");
             }
         }
     }
