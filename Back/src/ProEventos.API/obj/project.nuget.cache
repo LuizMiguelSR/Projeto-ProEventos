@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KBAD/0O3LOI4+4MJts+T5X0B6aKZOohfkmBj1OgERd7lftIWHBc4Ea9SVOInHoYrxPDFaAy5tFuZnYw/kTMcrQ==",
+  "dgSpecHash": "BQsfnEh4/aGhYy7rdqodRrybai4mU5Hx36/KXTxQuc9Anw6ry8Y/bMowpiIE+9ElASJZ3voNScmOgz0B+xGeIw==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj",
+  "projectFilePath": "C:\\Users\\Luiz Miguel\\Documents\\Repositorios\\Projeto-ProEventos\\Back\\src\\ProEventos.API\\ProEventos.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Luiz Miguel\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\Luiz Miguel\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
@@ -92,16 +92,5 @@
     "C:\\Users\\Luiz Miguel\\.nuget\\packages\\system.text.encodings.web\\4.7.2\\system.text.encodings.web.4.7.2.nupkg.sha512",
     "C:\\Users\\Luiz Miguel\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1902",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNetCore.Authentication.JwtBearer' 5.0.2 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-q7cg-43mg-qp69",
-      "libraryId": "Microsoft.AspNetCore.Authentication.JwtBearer",
-      "targetGraphs": [
-        "net5.0"
-      ]
-    }
-  ]
+  "logs": []
 }
